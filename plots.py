@@ -13,4 +13,16 @@ def plot_memberships(variables):
                 plt.plot(variable.crisp_value, variable.fuzzified_variable[k],
                          label=f"_nolegend_", marker="o")
             plt.legend(loc="upper left")
-    plt.show()
+
+
+def plot_aggregations(aggregations, ranges):
+    total = len(aggregations)
+    plt.figure(figsize=(6.4, 4.8 * (total - 1)))
+    for idx, (k, v) in enumerate(aggregations.items()):
+        ax = plt.subplot(total, 1, idx + 1)
+        ax.set_title(k)
+        plot_aggregation(v, ranges[k])
+
+
+def plot_aggregation(aggr, range, name=""):
+    plt.plot(range, aggr, label=name, marker="")

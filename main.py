@@ -1,6 +1,6 @@
 from fuzzy import *
-from plots import plot_memberships
-
+from plots import plot_memberships, plot_aggregations
+from matplotlib import pyplot as plt
 
 def bell(array, a, b, c):
     return 1 / (1 + abs((array - c) / a) ** (2 * b))
@@ -109,10 +109,19 @@ blood.process_crisp_value(float(input("Введите уровень насыщ�
 feeling.process_crisp_value(float(input("Введите самочувствие: ")))
 
 plot_memberships(variables.values())
+plt.savefig("mfs.png")
 
-centroid1 = fuzz.defuzz(intensity.range, aggregate(np.fmax, activate(variables, intensity_ruleset, np.fmin)), 'centroid')
-centroid2 = fuzz.defuzz(rest.range, aggregate(np.fmax, activate(variables, rest_ruleset, np.fmin)), 'centroid')
-centroid3 = fuzz.defuzz(wb.range, aggregate(np.fmax, activate(variables, wb_ruleset, np.fmin)), 'centroid')
+aggr1 = aggregate(np.fmax, activate(variables, intensity_ruleset, np.fmin))
+aggr2 = aggregate(np.fmax, activate(variables, rest_ruleset, np.fmin))
+aggr3 = aggregate(np.fmax, activate(variables, wb_ruleset, np.fmin))
+
+plot_aggregations({"интенсивность": aggr1, "отдых": aggr2, "сост_организма": aggr3},
+                  {"интенсивность": intensity.range, "отдых": rest.range, "сост_организма": wb.range})
+plt.savefig("aggrs.png")
+
+centroid1 = fuzz.defuzz(intensity.range, aggr1, 'centroid')
+centroid2 = fuzz.defuzz(rest.range, aggr2, 'centroid')
+centroid3 = fuzz.defuzz(wb.range, aggr3, 'centroid')
 
 print(f"Интенсивность - {centroid1}")
 print(f"Время отдыха - {centroid2} сек")
