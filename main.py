@@ -2,6 +2,7 @@ from fuzzy import *
 from plots import plot_memberships, plot_aggregations
 from matplotlib import pyplot as plt
 
+
 def bell(array, a, b, c):
     return 1 / (1 + abs((array - c) / a) ** (2 * b))
 
@@ -39,7 +40,7 @@ activity.add_term("сл_длинная", fuzz.trapmf, [60, 100, 180, 180])
 
 blood.add_term("критическое", fuzz.zmf, 70, 90)
 blood.add_term("низкое", fuzz.pimf, 86, 89, 92, 95)
-blood.add_term("нормальное", fuzz.smf, 93, 101)
+blood.add_term("нормальное", fuzz.smf, 93, 100)
 
 feeling.add_term("оч_плохое", bell, 1.5, 2, 1.5)
 feeling.add_term("плохое", bell, 1.5, 2, 3.5)
